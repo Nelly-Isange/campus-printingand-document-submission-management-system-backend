@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import rw.ac.auca.printing.domain.Student;
 import rw.ac.auca.printing.service.StudentService;
@@ -62,5 +63,10 @@ public class StudentController {
         } else {
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/by-last-name")
+    public ResponseEntity<?> getByLastName(@RequestParam String lastName) {
+        return new ResponseEntity<>(service.getByLastName(lastName), HttpStatus.OK);
     }
 }

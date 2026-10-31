@@ -48,4 +48,8 @@ public class StudentService {
         repository.deleteById(id);
         return "Student deleted successfully";
     }
+
+    public List<Student> getByLastName(String lastName) {
+        return repository.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
+    }
 }

@@ -1,11 +1,13 @@
 package rw.ac.auca.printing.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rw.ac.auca.printing.domain.PrintRequest;
+import rw.ac.auca.printing.domain.PrintStatus;
 import rw.ac.auca.printing.repository.PrintRequestRepository;
 
 @Service
@@ -49,5 +51,13 @@ public class PrintRequestService {
         }
         repository.deleteById(id);
         return "Print request deleted successfully";
+    }
+
+    public List<PrintRequest> getByStatus(PrintStatus status) {
+        return repository.findByStatusOrderByRequestDateAsc(status);
+    }
+
+    public List<PrintRequest> getBetween(LocalDate start, LocalDate end) {
+        return repository.findByRequestDateBetweenOrderByRequestDateAsc(start, end);
     }
 }

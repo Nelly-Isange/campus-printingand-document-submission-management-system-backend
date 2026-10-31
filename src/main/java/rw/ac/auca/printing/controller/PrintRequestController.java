@@ -1,5 +1,6 @@
 package rw.ac.auca.printing.controller;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import rw.ac.auca.printing.domain.PrintRequest;
+import rw.ac.auca.printing.domain.PrintStatus;
 import rw.ac.auca.printing.service.PrintRequestService;
 
 @RestController
@@ -62,5 +65,17 @@ public class PrintRequestController {
         } else {
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/by-status")
+    public ResponseEntity<?> getByStatus(@RequestParam PrintStatus status) {
+        return new ResponseEntity<>(service.getByStatus(status), HttpStatus.OK);
+    }
+
+    @GetMapping("/between")
+    public ResponseEntity<?> getBetween(@RequestParam String start, @RequestParam String end) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        return new ResponseEntity<>(service.getBetween(startDate, endDate), HttpStatus.OK);
     }
 }
