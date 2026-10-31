@@ -46,4 +46,8 @@ public class PrinterService {
         repository.deleteById(id);
         return "Printer deleted successfully";
     }
+
+    public List<Printer> getFreePrinters() {
+        return repository.findFreePrinters();
+    }
 }

@@ -2,4 +2,4 @@
 
 Isange Nelly · 27818 · INSY 8322 Web Technology and Internet
 
-Students, printers, print services, operators, and print requests, with lookups by student name, request status, and request date.
+Students, printers, print services, operators, and print requests, with lookups by student name, request status, request date, print service, free printers, unused services, and an operator's students.

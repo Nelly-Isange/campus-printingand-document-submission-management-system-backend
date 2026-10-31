@@ -49,4 +49,8 @@ public class PrintOperatorService {
         repository.deleteById(id);
         return "Print operator deleted successfully";
     }
+
+    public List<PrintOperator> getByPrintService(String name) {
+        return repository.findByPrintServiceName(name);
+    }
 }

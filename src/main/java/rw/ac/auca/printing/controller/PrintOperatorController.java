@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import rw.ac.auca.printing.domain.PrintOperator;
 import rw.ac.auca.printing.service.PrintOperatorService;
@@ -62,5 +63,10 @@ public class PrintOperatorController {
         } else {
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/by-print-service")
+    public ResponseEntity<?> getByPrintService(@RequestParam String name) {
+        return new ResponseEntity<>(service.getByPrintService(name), HttpStatus.OK);
     }
 }

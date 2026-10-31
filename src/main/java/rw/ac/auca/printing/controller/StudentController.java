@@ -1,5 +1,6 @@
 package rw.ac.auca.printing.controller;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,5 +69,15 @@ public class StudentController {
     @GetMapping("/by-last-name")
     public ResponseEntity<?> getByLastName(@RequestParam String lastName) {
         return new ResponseEntity<>(service.getByLastName(lastName), HttpStatus.OK);
+    }
+
+    @GetMapping("/of-print-operator/{printOperatorId}")
+    public ResponseEntity<?> getStudentsOfPrintOperator(@PathVariable UUID printOperatorId) {
+        Optional<List<Student>> students = service.getStudentsOfPrintOperator(printOperatorId);
+        if (students.isPresent()) {
+            return new ResponseEntity<>(students.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("The print operator with that id does not exist", HttpStatus.NOT_FOUND);
+        }
     }
 }

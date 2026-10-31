@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rw.ac.auca.printing.domain.Student;
+import rw.ac.auca.printing.repository.PrintOperatorRepository;
 import rw.ac.auca.printing.repository.StudentRepository;
 
 @Service
@@ -13,6 +14,9 @@ public class StudentService {
 
     @Autowired
     private StudentRepository repository;
+
+    @Autowired
+    private PrintOperatorRepository printOperatorRepository;
 
     public String saveStudent(Student value) {
         repository.save(value);
@@ -51,5 +55,12 @@ public class StudentService {
 
     public List<Student> getByLastName(String lastName) {
         return repository.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
+    }
+
+    public Optional<List<Student>> getStudentsOfPrintOperator(UUID printOperatorId) {
+        if (!printOperatorRepository.existsById(printOperatorId)) {
+            return Optional.empty();
+        }
+        return Optional.of(repository.findStudentsOfPrintOperator(printOperatorId));
     }
 }

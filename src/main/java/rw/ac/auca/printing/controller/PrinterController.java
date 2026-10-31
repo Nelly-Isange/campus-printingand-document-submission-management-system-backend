@@ -63,4 +63,9 @@ public class PrinterController {
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/free")
+    public ResponseEntity<?> getFreePrinters() {
+        return new ResponseEntity<>(service.getFreePrinters(), HttpStatus.OK);
+    }
 }

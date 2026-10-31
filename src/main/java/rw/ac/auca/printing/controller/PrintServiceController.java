@@ -63,4 +63,9 @@ public class PrintServiceController {
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/unused")
+    public ResponseEntity<?> getUnusedPrintServices() {
+        return new ResponseEntity<>(service.getUnusedPrintServices(), HttpStatus.OK);
+    }
 }

@@ -45,4 +45,8 @@ public class PrintServiceService {
         repository.deleteById(id);
         return "Print service deleted successfully";
     }
+
+    public List<PrintService> getUnusedPrintServices() {
+        return repository.findUnusedPrintServices();
+    }
 }
