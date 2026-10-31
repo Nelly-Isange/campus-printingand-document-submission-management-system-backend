@@ -1,0 +1,1380 @@
+{
+  "info": {
+    "name": "Campus Printing and Document Submission Management System Midterm - part-a",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Isange Nelly - 27818. A1\u2013A2: five entities, enum and CRUD. The Docker database starts with a backup of data entered through Part A endpoints. Run folders in order. F2 changes the October 20 seed statuses."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "missingId",
+      "value": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "item": [
+    {
+      "name": "00 - Load seeded IDs",
+      "item": [
+        {
+          "name": "A2 capture print-services IDs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-services/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Capture printService1Id\", function () { const row = pm.response.json().find(x => x.name === \"Black and White\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printService1Id\", row.id); });",
+                  "pm.test(\"Capture printService2Id\", function () { const row = pm.response.json().find(x => x.name === \"Colour Printing\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printService2Id\", row.id); });",
+                  "pm.test(\"Capture printService3Id\", function () { const row = pm.response.json().find(x => x.name === \"Binding\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printService3Id\", row.id); });",
+                  "pm.test(\"Capture printService4Id\", function () { const row = pm.response.json().find(x => x.name === \"Lamination\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printService4Id\", row.id); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 capture printers IDs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/printers/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Capture printer1Id\", function () { const row = pm.response.json().find(x => x.printerNumber === 1); pm.expect(row).to.exist; pm.collectionVariables.set(\"printer1Id\", row.id); });",
+                  "pm.test(\"Capture printer2Id\", function () { const row = pm.response.json().find(x => x.printerNumber === 2); pm.expect(row).to.exist; pm.collectionVariables.set(\"printer2Id\", row.id); });",
+                  "pm.test(\"Capture printer3Id\", function () { const row = pm.response.json().find(x => x.printerNumber === 3); pm.expect(row).to.exist; pm.collectionVariables.set(\"printer3Id\", row.id); });",
+                  "pm.test(\"Capture printer4Id\", function () { const row = pm.response.json().find(x => x.printerNumber === 4); pm.expect(row).to.exist; pm.collectionVariables.set(\"printer4Id\", row.id); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 capture print-operators IDs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-operators/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Capture printOperator1Id\", function () { const row = pm.response.json().find(x => x.firstName === \"Alice\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printOperator1Id\", row.id); });",
+                  "pm.test(\"Capture printOperator2Id\", function () { const row = pm.response.json().find(x => x.firstName === \"Eric\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printOperator2Id\", row.id); });",
+                  "pm.test(\"Capture printOperator3Id\", function () { const row = pm.response.json().find(x => x.firstName === \"Grace\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printOperator3Id\", row.id); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 capture students IDs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/students/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Capture student1Id\", function () { const row = pm.response.json().find(x => x.regNumber === \"27818\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"student1Id\", row.id); });",
+                  "pm.test(\"Capture student2Id\", function () { const row = pm.response.json().find(x => x.regNumber === \"27819\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"student2Id\", row.id); });",
+                  "pm.test(\"Capture student3Id\", function () { const row = pm.response.json().find(x => x.regNumber === \"27820\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"student3Id\", row.id); });",
+                  "pm.test(\"Capture student4Id\", function () { const row = pm.response.json().find(x => x.regNumber === \"27821\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"student4Id\", row.id); });",
+                  "pm.test(\"Capture student5Id\", function () { const row = pm.response.json().find(x => x.regNumber === \"27822\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"student5Id\", row.id); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 capture print-requests IDs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-requests/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Capture printRequest1Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 1\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest1Id\", row.id); });",
+                  "pm.test(\"Capture printRequest2Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 2\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest2Id\", row.id); });",
+                  "pm.test(\"Capture printRequest3Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 3\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest3Id\", row.id); });",
+                  "pm.test(\"Capture printRequest4Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 4\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest4Id\", row.id); });",
+                  "pm.test(\"Capture printRequest5Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 5\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest5Id\", row.id); });",
+                  "pm.test(\"Capture printRequest6Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 6\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest6Id\", row.id); });",
+                  "pm.test(\"Capture printRequest7Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 7\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest7Id\", row.id); });",
+                  "pm.test(\"Capture printRequest8Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 8\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest8Id\", row.id); });",
+                  "pm.test(\"Capture printRequest9Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 9\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest9Id\", row.id); });",
+                  "pm.test(\"Capture printRequest10Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 10\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest10Id\", row.id); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Part A - CRUD and missing IDs",
+      "item": [
+        {
+          "name": "A2 list print-services",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-services/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 get print service",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-services/{{printService1Id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 update print service",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-services/update/{{printService1Id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Black and White\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print service updated successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 missing print service GET",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-services/{{missingId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The print service with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 missing print service PUT",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-services/update/{{missingId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Black and White\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The print service with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 missing print service DELETE",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-services/delete/{{missingId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The print service with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 list printers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/printers/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 get printer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/printers/{{printer1Id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 update printer",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/printers/update/{{printer1Id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"printerNumber\": 1,\n  \"name\": \"Printer 1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Printer updated successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 missing printer GET",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/printers/{{missingId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The printer with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 missing printer PUT",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/printers/update/{{missingId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"printerNumber\": 1,\n  \"name\": \"Printer 1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The printer with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 missing printer DELETE",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/printers/delete/{{missingId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The printer with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 list print-operators",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-operators/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 get print operator",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-operators/{{printOperator1Id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 update print operator",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-operators/update/{{printOperator1Id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Operator\",\n  \"phone\": \"0780000001\",\n  \"printer\": {\n    \"id\": \"{{printer1Id}}\"\n  },\n  \"printServices\": [\n    {\n      \"id\": \"{{printService1Id}}\"\n    },\n    {\n      \"id\": \"{{printService3Id}}\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print operator updated successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 missing print operator GET",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-operators/{{missingId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The print operator with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 missing print operator PUT",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-operators/update/{{missingId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Operator\",\n  \"phone\": \"0780000001\",\n  \"printer\": {\n    \"id\": \"{{printer1Id}}\"\n  },\n  \"printServices\": [\n    {\n      \"id\": \"{{printService1Id}}\"\n    },\n    {\n      \"id\": \"{{printService3Id}}\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The print operator with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 missing print operator DELETE",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-operators/delete/{{missingId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The print operator with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 list students",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/students/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 get student",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/students/{{student1Id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 update student",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/students/update/{{student1Id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Nelly\",\n  \"lastName\": \"Isange\",\n  \"regNumber\": \"27818\",\n  \"email\": \"nelly@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Student updated successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 missing student GET",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/students/{{missingId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The student with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 missing student PUT",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/students/update/{{missingId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Nelly\",\n  \"lastName\": \"Isange\",\n  \"regNumber\": \"27818\",\n  \"email\": \"nelly@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The student with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 missing student DELETE",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/students/delete/{{missingId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The student with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 list print-requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-requests/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 get print request",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-requests/{{printRequest1Id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 update print request",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-requests/update/{{printRequest1Id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestDate\": \"2026-10-01\",\n  \"status\": \"READY\",\n  \"documentName\": \"Document 1\",\n  \"copies\": 1,\n  \"student\": {\n    \"id\": \"{{student1Id}}\"\n  },\n  \"printOperator\": {\n    \"id\": \"{{printOperator1Id}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print request updated successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 missing print request GET",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-requests/{{missingId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The print request with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 missing print request PUT",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-requests/update/{{missingId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestDate\": \"2026-10-01\",\n  \"status\": \"READY\",\n  \"documentName\": \"Document 1\",\n  \"copies\": 1,\n  \"student\": {\n    \"id\": \"{{student1Id}}\"\n  },\n  \"printOperator\": {\n    \"id\": \"{{printOperator1Id}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The print request with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 missing print request DELETE",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-requests/delete/{{missingId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The print request with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Part A - Create and delete temporary records",
+      "item": [
+        {
+          "name": "A2 create temporary print service",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-services/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman temporary service\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print service saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 capture temporary print service",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-services/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "const row = pm.response.json().find(x => x.name === \"Postman temporary service\");",
+                  "pm.test(\"Temporary row exists\", function () { pm.expect(row).to.exist; });",
+                  "pm.collectionVariables.set(\"temporaryprintServiceId\", row.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 delete temporary print service",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-services/delete/{{temporaryprintServiceId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print service deleted successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 verify deleted print service",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-services/{{temporaryprintServiceId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The print service with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 create temporary printer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/printers/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"printerNumber\": 99,\n  \"name\": \"Postman temporary printer\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Printer saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 capture temporary printer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/printers/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "const row = pm.response.json().find(x => x.printerNumber === 99);",
+                  "pm.test(\"Temporary row exists\", function () { pm.expect(row).to.exist; });",
+                  "pm.collectionVariables.set(\"temporaryprinterId\", row.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 delete temporary printer",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/printers/delete/{{temporaryprinterId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Printer deleted successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 verify deleted printer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/printers/{{temporaryprinterId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The printer with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 create temporary print operator",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-operators/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"PostmanTemporary\",\n  \"lastName\": \"Operator\",\n  \"phone\": \"0780000001\",\n  \"printer\": null,\n  \"printServices\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print operator saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 capture temporary print operator",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-operators/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "const row = pm.response.json().find(x => x.firstName === \"PostmanTemporary\");",
+                  "pm.test(\"Temporary row exists\", function () { pm.expect(row).to.exist; });",
+                  "pm.collectionVariables.set(\"temporaryprintOperatorId\", row.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 delete temporary print operator",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-operators/delete/{{temporaryprintOperatorId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print operator deleted successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 verify deleted print operator",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-operators/{{temporaryprintOperatorId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The print operator with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 create temporary student",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/students/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Nelly\",\n  \"lastName\": \"Isange\",\n  \"regNumber\": \"POSTMAN-TEMP-27818\",\n  \"email\": \"nelly@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Student saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 capture temporary student",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/students/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "const row = pm.response.json().find(x => x.regNumber === \"POSTMAN-TEMP-27818\");",
+                  "pm.test(\"Temporary row exists\", function () { pm.expect(row).to.exist; });",
+                  "pm.collectionVariables.set(\"temporarystudentId\", row.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 delete temporary student",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/students/delete/{{temporarystudentId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Student deleted successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 verify deleted student",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/students/{{temporarystudentId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The student with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 create temporary print request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-requests/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestDate\": \"{{crudDate}}\",\n  \"status\": \"READY\",\n  \"documentName\": \"Postman temporary request\",\n  \"copies\": 1,\n  \"student\": {\n    \"id\": \"{{student1Id}}\"\n  },\n  \"printOperator\": {\n    \"id\": \"{{printOperator1Id}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print request saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 capture temporary print request",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-requests/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "const row = pm.response.json().find(x => x.documentName === \"Postman temporary request\");",
+                  "pm.test(\"Temporary row exists\", function () { pm.expect(row).to.exist; });",
+                  "pm.collectionVariables.set(\"temporaryprintRequestId\", row.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 delete temporary print request",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-requests/delete/{{temporaryprintRequestId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print request deleted successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 verify deleted print request",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-requests/{{temporaryprintRequestId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"The print request with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "function day(offset) { const d = new Date(); d.setDate(d.getDate() + offset); return d.getFullYear() + \"-\" + String(d.getMonth()+1).padStart(2,\"0\") + \"-\" + String(d.getDate()).padStart(2,\"0\"); }",
+          "pm.collectionVariables.set(\"today\", day(0));",
+          "pm.collectionVariables.set(\"yesterday\", day(-1));",
+          "pm.collectionVariables.set(\"futureDate\", day(60));",
+          "pm.collectionVariables.set(\"crudDate\", day(120));"
+        ]
+      }
+    }
+  ]
+}

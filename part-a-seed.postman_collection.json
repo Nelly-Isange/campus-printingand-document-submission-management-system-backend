@@ -1,0 +1,1030 @@
+{
+  "info": {
+    "name": "Part A seed - empty Part A database ONLY",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Optional: the original endpoint seeding sequence. Use on an EMPTY database with the Part A application. Do not run on the supplied preloaded database, or after the Part D rules are enabled."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "missingId",
+      "value": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Step 0 - Part A seed (run ONCE before Part D)",
+      "description": "Run on an empty Part A database, before safe saving is added. Uses the exam October and November 2026 data. Later keep this database. Do not rerun against the final safe-save endpoint.",
+      "item": [
+        {
+          "name": "A2 seed print service 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-services/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Black and White\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print service saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed print service 2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-services/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Colour Printing\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print service saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed print service 3",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-services/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Binding\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print service saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed print service 4",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-services/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Lamination\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print service saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 capture print-services IDs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-services/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Capture printService1Id\", function () { const row = pm.response.json().find(x => x.name === \"Black and White\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printService1Id\", row.id); });",
+                  "pm.test(\"Capture printService2Id\", function () { const row = pm.response.json().find(x => x.name === \"Colour Printing\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printService2Id\", row.id); });",
+                  "pm.test(\"Capture printService3Id\", function () { const row = pm.response.json().find(x => x.name === \"Binding\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printService3Id\", row.id); });",
+                  "pm.test(\"Capture printService4Id\", function () { const row = pm.response.json().find(x => x.name === \"Lamination\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printService4Id\", row.id); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed printer 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/printers/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"printerNumber\": 1,\n  \"name\": \"Printer 1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Printer saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed printer 2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/printers/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"printerNumber\": 2,\n  \"name\": \"Printer 2\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Printer saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed printer 3",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/printers/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"printerNumber\": 3,\n  \"name\": \"Printer 3\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Printer saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed printer 4",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/printers/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"printerNumber\": 4,\n  \"name\": \"Printer 4\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Printer saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 capture printers IDs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/printers/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Capture printer1Id\", function () { const row = pm.response.json().find(x => x.printerNumber === 1); pm.expect(row).to.exist; pm.collectionVariables.set(\"printer1Id\", row.id); });",
+                  "pm.test(\"Capture printer2Id\", function () { const row = pm.response.json().find(x => x.printerNumber === 2); pm.expect(row).to.exist; pm.collectionVariables.set(\"printer2Id\", row.id); });",
+                  "pm.test(\"Capture printer3Id\", function () { const row = pm.response.json().find(x => x.printerNumber === 3); pm.expect(row).to.exist; pm.collectionVariables.set(\"printer3Id\", row.id); });",
+                  "pm.test(\"Capture printer4Id\", function () { const row = pm.response.json().find(x => x.printerNumber === 4); pm.expect(row).to.exist; pm.collectionVariables.set(\"printer4Id\", row.id); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed print operator 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-operators/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Operator\",\n  \"phone\": \"0780000001\",\n  \"printer\": {\n    \"id\": \"{{printer1Id}}\"\n  },\n  \"printServices\": [\n    {\n      \"id\": \"{{printService1Id}}\"\n    },\n    {\n      \"id\": \"{{printService3Id}}\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print operator saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed print operator 2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-operators/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Eric\",\n  \"lastName\": \"Operator\",\n  \"phone\": \"0780000002\",\n  \"printer\": {\n    \"id\": \"{{printer2Id}}\"\n  },\n  \"printServices\": [\n    {\n      \"id\": \"{{printService2Id}}\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print operator saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed print operator 3",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-operators/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Grace\",\n  \"lastName\": \"Operator\",\n  \"phone\": \"0780000003\",\n  \"printer\": {\n    \"id\": \"{{printer3Id}}\"\n  },\n  \"printServices\": [\n    {\n      \"id\": \"{{printService1Id}}\"\n    },\n    {\n      \"id\": \"{{printService2Id}}\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print operator saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 capture print-operators IDs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-operators/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Capture printOperator1Id\", function () { const row = pm.response.json().find(x => x.firstName === \"Alice\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printOperator1Id\", row.id); });",
+                  "pm.test(\"Capture printOperator2Id\", function () { const row = pm.response.json().find(x => x.firstName === \"Eric\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printOperator2Id\", row.id); });",
+                  "pm.test(\"Capture printOperator3Id\", function () { const row = pm.response.json().find(x => x.firstName === \"Grace\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printOperator3Id\", row.id); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed student 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/students/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Nelly\",\n  \"lastName\": \"Isange\",\n  \"regNumber\": \"27818\",\n  \"email\": \"nelly@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Student saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed student 2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/students/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Isange\",\n  \"regNumber\": \"27819\",\n  \"email\": \"alice@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Student saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed student 3",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/students/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Eric\",\n  \"lastName\": \"Mugisha\",\n  \"regNumber\": \"27820\",\n  \"email\": \"eric@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Student saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed student 4",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/students/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Grace\",\n  \"lastName\": \"Uwase\",\n  \"regNumber\": \"27821\",\n  \"email\": \"grace@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Student saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed student 5",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/students/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Jean\",\n  \"lastName\": \"Ishimwe\",\n  \"regNumber\": \"27822\",\n  \"email\": \"jean@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Student saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 capture students IDs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/students/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Capture student1Id\", function () { const row = pm.response.json().find(x => x.regNumber === \"27818\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"student1Id\", row.id); });",
+                  "pm.test(\"Capture student2Id\", function () { const row = pm.response.json().find(x => x.regNumber === \"27819\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"student2Id\", row.id); });",
+                  "pm.test(\"Capture student3Id\", function () { const row = pm.response.json().find(x => x.regNumber === \"27820\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"student3Id\", row.id); });",
+                  "pm.test(\"Capture student4Id\", function () { const row = pm.response.json().find(x => x.regNumber === \"27821\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"student4Id\", row.id); });",
+                  "pm.test(\"Capture student5Id\", function () { const row = pm.response.json().find(x => x.regNumber === \"27822\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"student5Id\", row.id); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed print request 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-requests/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestDate\": \"2026-10-01\",\n  \"status\": \"READY\",\n  \"documentName\": \"Document 1\",\n  \"copies\": 1,\n  \"student\": {\n    \"id\": \"{{student1Id}}\"\n  },\n  \"printOperator\": {\n    \"id\": \"{{printOperator1Id}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print request saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed print request 2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-requests/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestDate\": \"2026-10-20\",\n  \"status\": \"PROCESSING\",\n  \"documentName\": \"Document 2\",\n  \"copies\": 2,\n  \"student\": {\n    \"id\": \"{{student1Id}}\"\n  },\n  \"printOperator\": {\n    \"id\": \"{{printOperator1Id}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print request saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed print request 3",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-requests/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestDate\": \"2026-10-20\",\n  \"status\": \"CANCELLED\",\n  \"documentName\": \"Document 3\",\n  \"copies\": 3,\n  \"student\": {\n    \"id\": \"{{student1Id}}\"\n  },\n  \"printOperator\": {\n    \"id\": \"{{printOperator1Id}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print request saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed print request 4",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-requests/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestDate\": \"2026-10-25\",\n  \"status\": \"READY\",\n  \"documentName\": \"Document 4\",\n  \"copies\": 1,\n  \"student\": {\n    \"id\": \"{{student2Id}}\"\n  },\n  \"printOperator\": {\n    \"id\": \"{{printOperator2Id}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print request saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed print request 5",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-requests/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestDate\": \"2026-10-31\",\n  \"status\": \"SUBMITTED\",\n  \"documentName\": \"Document 5\",\n  \"copies\": 2,\n  \"student\": {\n    \"id\": \"{{student2Id}}\"\n  },\n  \"printOperator\": {\n    \"id\": \"{{printOperator3Id}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print request saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed print request 6",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-requests/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestDate\": \"2026-11-01\",\n  \"status\": \"SUBMITTED\",\n  \"documentName\": \"Document 6\",\n  \"copies\": 3,\n  \"student\": {\n    \"id\": \"{{student3Id}}\"\n  },\n  \"printOperator\": {\n    \"id\": \"{{printOperator1Id}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print request saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed print request 7",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-requests/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestDate\": \"2026-11-05\",\n  \"status\": \"PROCESSING\",\n  \"documentName\": \"Document 7\",\n  \"copies\": 1,\n  \"student\": {\n    \"id\": \"{{student4Id}}\"\n  },\n  \"printOperator\": {\n    \"id\": \"{{printOperator2Id}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print request saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed print request 8",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-requests/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestDate\": \"2026-11-10\",\n  \"status\": \"CANCELLED\",\n  \"documentName\": \"Document 8\",\n  \"copies\": 2,\n  \"student\": {\n    \"id\": \"{{student5Id}}\"\n  },\n  \"printOperator\": {\n    \"id\": \"{{printOperator3Id}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print request saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed print request 9",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-requests/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestDate\": \"2026-11-15\",\n  \"status\": \"READY\",\n  \"documentName\": \"Document 9\",\n  \"copies\": 3,\n  \"student\": {\n    \"id\": \"{{student3Id}}\"\n  },\n  \"printOperator\": {\n    \"id\": \"{{printOperator2Id}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print request saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 seed print request 10",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/print-requests/save",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestDate\": \"2026-11-20\",\n  \"status\": \"SUBMITTED\",\n  \"documentName\": \"Document 10\",\n  \"copies\": 1,\n  \"student\": {\n    \"id\": \"{{student4Id}}\"\n  },\n  \"printOperator\": {\n    \"id\": \"{{printOperator3Id}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.test(\"Exact message\", function () { pm.expect(pm.response.text()).to.eql(\"Print request saved successfully\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2 capture print-requests IDs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/print-requests/all"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Capture printRequest1Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 1\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest1Id\", row.id); });",
+                  "pm.test(\"Capture printRequest2Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 2\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest2Id\", row.id); });",
+                  "pm.test(\"Capture printRequest3Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 3\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest3Id\", row.id); });",
+                  "pm.test(\"Capture printRequest4Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 4\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest4Id\", row.id); });",
+                  "pm.test(\"Capture printRequest5Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 5\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest5Id\", row.id); });",
+                  "pm.test(\"Capture printRequest6Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 6\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest6Id\", row.id); });",
+                  "pm.test(\"Capture printRequest7Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 7\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest7Id\", row.id); });",
+                  "pm.test(\"Capture printRequest8Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 8\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest8Id\", row.id); });",
+                  "pm.test(\"Capture printRequest9Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 9\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest9Id\", row.id); });",
+                  "pm.test(\"Capture printRequest10Id\", function () { const row = pm.response.json().find(x => x.documentName === \"Document 10\"); pm.expect(row).to.exist; pm.collectionVariables.set(\"printRequest10Id\", row.id); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
