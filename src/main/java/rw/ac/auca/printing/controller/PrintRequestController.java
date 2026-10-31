@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,7 +30,13 @@ public class PrintRequestController {
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody PrintRequest value) {
         String message = service.savePrintRequest(value);
-        return new ResponseEntity<>(message, HttpStatus.CREATED);
+        if (message.equals("Print request saved successfully")) {
+            return new ResponseEntity<>(message, HttpStatus.CREATED);
+        } else if (message.equals("Print operator already has a request on that date")) {
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+        } else {
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/all")
@@ -77,5 +84,17 @@ public class PrintRequestController {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
         return new ResponseEntity<>(service.getBetween(startDate, endDate), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> changeStatus(@PathVariable UUID id, @RequestParam PrintStatus status) {
+        String message = service.changeStatus(id, status);
+        if (message.equals("Print request status updated successfully")) {
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        } else if (message.equals("The print request with that id does not exist")) {
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        }
     }
 }

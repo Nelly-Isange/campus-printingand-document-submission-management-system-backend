@@ -17,6 +17,14 @@ public class PrintRequestService {
     private PrintRequestRepository repository;
 
     public String savePrintRequest(PrintRequest value) {
+        if (value.getRequestDate().isBefore(LocalDate.now())) {
+            return "Print request date cannot be in the past";
+        }
+        if (repository.existsByPrintOperator_IdAndRequestDateAndStatusNot(
+                value.getPrintOperator().getId(), value.getRequestDate(), PrintStatus.CANCELLED)) {
+            return "Print operator already has a request on that date";
+        }
+        value.setStatus(PrintStatus.SUBMITTED);
         repository.save(value);
         return "Print request saved successfully";
     }
@@ -35,7 +43,6 @@ public class PrintRequestService {
             return "The print request with that id does not exist";
         }
         existing.get().setRequestDate(value.getRequestDate());
-        existing.get().setStatus(value.getStatus());
         existing.get().setDocumentName(value.getDocumentName());
         existing.get().setCopies(value.getCopies());
         existing.get().setStudent(value.getStudent());
@@ -59,5 +66,20 @@ public class PrintRequestService {
 
     public List<PrintRequest> getBetween(LocalDate start, LocalDate end) {
         return repository.findByRequestDateBetweenOrderByRequestDateAsc(start, end);
+    }
+
+    public String changeStatus(UUID id, PrintStatus status) {
+        Optional<PrintRequest> request = repository.findById(id);
+        if (request.isEmpty()) {
+            return "The print request with that id does not exist";
+        }
+        PrintStatus current = request.get().getStatus();
+        if ((current == PrintStatus.SUBMITTED && (status == PrintStatus.PROCESSING || status == PrintStatus.CANCELLED))
+                || (current == PrintStatus.PROCESSING && (status == PrintStatus.READY || status == PrintStatus.CANCELLED))) {
+            request.get().setStatus(status);
+            repository.save(request.get());
+            return "Print request status updated successfully";
+        }
+        return "Cannot change status from " + current + " to " + status;
     }
 }

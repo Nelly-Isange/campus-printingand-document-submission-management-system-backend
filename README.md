@@ -2,4 +2,4 @@
 
 Isange Nelly · 27818 · INSY 8322 Web Technology and Internet
 
-Students, printers, print services, operators, and print requests, with lookups by student name, request status, request date, print service, free printers, unused services, and an operator's students.
+Students, printers, print services, operators, and print requests, with lookups by student name, request status, request date, print service, free printers, unused services, and an operator's students. A new request stays submitted, cannot use a past date, and an operator can hold only one active request on a day. Status, print services, and the assigned printer are changed on their own.

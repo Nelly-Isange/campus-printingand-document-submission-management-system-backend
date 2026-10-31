@@ -12,4 +12,6 @@ public interface PrintRequestRepository extends JpaRepository<PrintRequest, UUID
     List<PrintRequest> findByStatusOrderByRequestDateAsc(PrintStatus status);
 
     List<PrintRequest> findByRequestDateBetweenOrderByRequestDateAsc(LocalDate start, LocalDate end);
+
+    boolean existsByPrintOperator_IdAndRequestDateAndStatusNot(UUID printOperatorId, LocalDate requestDate, PrintStatus status);
 }
