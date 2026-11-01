@@ -69,6 +69,8 @@ public class PrintRequestController {
         String message = service.deletePrintRequest(id);
         if (message.equals("Print request deleted successfully")) {
             return new ResponseEntity<>(message, HttpStatus.OK);
+        } else if (message.equals("That print request has print payments, delete them first")) {
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         } else {
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }

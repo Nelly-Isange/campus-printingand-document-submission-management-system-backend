@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rw.ac.auca.printing.domain.PrintRequest;
 import rw.ac.auca.printing.domain.PrintStatus;
+import rw.ac.auca.printing.repository.PrintPaymentRepository;
 import rw.ac.auca.printing.repository.PrintRequestRepository;
 
 @Service
@@ -15,6 +16,9 @@ public class PrintRequestService {
 
     @Autowired
     private PrintRequestRepository repository;
+
+    @Autowired
+    private PrintPaymentRepository printPaymentRepository;
 
     public String savePrintRequest(PrintRequest value) {
         if (value.getRequestDate().isBefore(LocalDate.now())) {
@@ -53,8 +57,12 @@ public class PrintRequestService {
     }
 
     public String deletePrintRequest(UUID id) {
-        if (!repository.existsById(id)) {
+        Optional<PrintRequest> request = repository.findById(id);
+        if (request.isEmpty()) {
             return "The print request with that id does not exist";
+        }
+        if (printPaymentRepository.existsByPrintRequest(request.get())) {
+            return "That print request has print payments, delete them first";
         }
         repository.deleteById(id);
         return "Print request deleted successfully";
