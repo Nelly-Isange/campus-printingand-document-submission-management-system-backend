@@ -27,4 +27,8 @@ public interface PrintRequestRepository extends JpaRepository<PrintRequest, UUID
                   @Param("date") LocalDate date,
                   @Param("cancelled") PrintStatus cancelled,
                   @Param("ready") PrintStatus ready);
+
+    long countByRequestDate(LocalDate requestDate);
+
+    long countByStatus(PrintStatus status);
 }

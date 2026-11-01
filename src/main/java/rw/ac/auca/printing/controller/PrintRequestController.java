@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -110,5 +113,14 @@ public class PrintRequestController {
         LocalDate requestDate = LocalDate.parse(date);
         String message = service.cancelDay(printOperatorId, requestDate);
         return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<?> getPage(@RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "5") int size,
+                                   @RequestParam(defaultValue = "requestDate,desc") String sort) {
+        String[] parts = sort.split(",");
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(parts[1]), parts[0]));
+        return new ResponseEntity<>(service.getPage(pageable), HttpStatus.OK);
     }
 }

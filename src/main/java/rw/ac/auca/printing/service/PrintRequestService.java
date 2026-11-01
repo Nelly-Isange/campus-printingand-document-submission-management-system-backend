@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rw.ac.auca.printing.domain.PrintRequest;
@@ -100,5 +102,9 @@ public class PrintRequestService {
     public String cancelDay(UUID printOperatorId, LocalDate date) {
         int count = repository.cancelDay(printOperatorId, date, PrintStatus.CANCELLED, PrintStatus.READY);
         return count + " print requests cancelled";
+    }
+
+    public Page<PrintRequest> getPage(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 }
