@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import rw.ac.auca.printing.domain.PrintRequest;
 import rw.ac.auca.printing.domain.PrintStatus;
 import rw.ac.auca.printing.repository.PrintPaymentRepository;
@@ -89,5 +90,15 @@ public class PrintRequestService {
             return "Print request status updated successfully";
         }
         return "Cannot change status from " + current + " to " + status;
+    }
+
+    public List<Object[]> getStatusCounts() {
+        return repository.countRequestsByStatus();
+    }
+
+    @Transactional
+    public String cancelDay(UUID printOperatorId, LocalDate date) {
+        int count = repository.cancelDay(printOperatorId, date, PrintStatus.CANCELLED, PrintStatus.READY);
+        return count + " print requests cancelled";
     }
 }

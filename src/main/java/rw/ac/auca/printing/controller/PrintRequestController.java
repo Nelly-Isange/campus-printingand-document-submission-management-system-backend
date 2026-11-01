@@ -99,4 +99,16 @@ public class PrintRequestController {
             return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/stats/by-status")
+    public ResponseEntity<?> getStatusCounts() {
+        return new ResponseEntity<>(service.getStatusCounts(), HttpStatus.OK);
+    }
+
+    @PatchMapping("/cancel-day")
+    public ResponseEntity<?> cancelDay(@RequestParam UUID printOperatorId, @RequestParam String date) {
+        LocalDate requestDate = LocalDate.parse(date);
+        String message = service.cancelDay(printOperatorId, requestDate);
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
 }
